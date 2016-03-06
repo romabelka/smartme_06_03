@@ -7,7 +7,8 @@ class Container extends Component {
     constructor(...args) {
         super(...args)
         this.state = {
-            articles: articleStore.getAll()
+            articles: articleStore.getAll(),
+            loading: articleStore.loading
         }
     }
 
@@ -21,17 +22,21 @@ class Container extends Component {
     }
 
     render() {
-        const { articles } = this.state
+        const { articles, loading } = this.state
+        const loader = loading ? <h3>Loading...</h3> : null
         return (
             <div>
+                <h1>News App!</h1>
                 <ArticleList articles = {articles} />
+                {loader}
             </div>
         )
     }
 
     __onChange = () => {
         this.setState({
-            articles: articleStore.getAll()
+            articles: articleStore.getAll(),
+            loading: articleStore.loading
         })
     }
 }
