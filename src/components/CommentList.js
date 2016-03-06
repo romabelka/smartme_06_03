@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import Comment from './Comment'
 import toggleOpen from './../HOC/toggleOpen'
+import { addComment } from '../actions/comments'
 
 class CommentList extends Component {
     static propTypes = {
@@ -48,7 +49,7 @@ class CommentList extends Component {
 
     submitComment = (ev) => {
         ev.preventDefault()
-        console.log('---', 'adding comment ', this.state.comment);
+        addComment(this.state.comment, this.props.article.id)
         this.setState({
             comment: ''
         })
