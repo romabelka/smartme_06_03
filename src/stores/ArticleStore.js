@@ -1,33 +1,21 @@
-import { EventEmitter} from 'events'
-const STORE_CHANGE_EVENT = 'STORE_CHANGE_EVENT'
 import Dispatcher from '../dispatcher'
+import { DELETE_ARTICLE } from '../actions/constants'
+import  SimpleStore from './SimpleStore'
 
-class ArticleStore extends EventEmitter {
-    constructor(initialState) {
-        super()
-        this.__items = initialState
+class ArticleStore extends SimpleStore {
+    constructor(...args) {
+        super(...args)
 
         Dispatcher.register((action) => {
+            const { type, data } = action
 
+            switch (type) {
+                case DELETE_ARTICLE:
+                    this.__remove(data.id)
+                    this.emitChange()
+                    break;
+            }
         })
-    }
-
-    getAll() {
-        return this.__items.slice()
-    }
-
-
-
-    emitChange() {
-        this.emit(STORE_CHANGE_EVENT)
-    }
-
-    addChangeListener(callback) {
-        this.on(STORE_CHANGE_EVENT, callback)
-    }
-
-    removeChangeListener(callback) {
-        this.removeListener(STORE_CHANGE_EVENT, callback)
     }
 }
 
